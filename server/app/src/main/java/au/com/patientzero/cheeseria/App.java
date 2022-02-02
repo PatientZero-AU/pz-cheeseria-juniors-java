@@ -5,13 +5,6 @@ package au.com.patientzero.cheeseria;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.attribute.PosixFilePermissions;
-import java.util.Properties;
-import java.util.function.BiFunction;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -19,36 +12,65 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import au.com.patientzero.cheeseria.controllers.CheesesController;
 import au.com.patientzero.cheeseria.data.CheesesRepository;
 import au.com.patientzero.cheeseria.data.JsonFileCheesesRepository;
 import io.javalin.Javalin;
+import io.javalin.plugin.openapi.OpenApiPlugin;
+import io.javalin.plugin.openapi.dsl.OpenApiBuilder;
+import io.javalin.plugin.openapi.dsl.OpenApiDocumentation;
+import io.javalin.plugin.openapi.OpenApiOptions;
+import io.javalin.plugin.openapi.ui.SwaggerOptions;
+import io.swagger.v3.oas.models.info.Info;
+
 
 public class App {
-  private final Config config;
+  private final ServerConfig serverConfig;
+  private final CheesesRepository cheesesRepository;
   private static Logger logger = LoggerFactory.getLogger(App.class);
 
 
-  public App(Config config) {
-    this.config = config;
+  public App(ServerConfig serverConfig, CheesesRepository cheesesRepository) {
+    this.serverConfig = serverConfig;
+    this.cheesesRepository = cheesesRepository;
   }
 
   public void start () {
-    Javalin app = Javalin.create().start(config.server().port());
-    app.get("/", ctx -> ctx.result("Hi World"));
-    app.get("/shutdown", ctx -> app.close() );
-    
-    Runtime.getRuntime().addShutdownHook(new Thread(() -> app.stop()));
+    logger.info("Starting app");
+    CheesesController cheesesController = new CheesesController(cheesesRepository);
 
-    app.events(event -> {
-      event.serverStopping(() -> { logger.info("Server Stopping"); });
-      event.serverStopped(() -> { logger.info("Server Stopped");  });
-    }
-);
+    Javalin
+      .create(config-> {
+        config.defaultContentType = "application/json";
+        config.registerPlugin(createOpenApiPlugin());
+      })
+      .get("/cheeses", cheesesController::getAll)
+      .start(serverConfig.port());
+      logger.info("Started app");
   }
+
+  private static OpenApiPlugin createOpenApiPlugin() {
+    Info info = new Info().version("1.0").title("Cheeses API").description("Cheese API for PZ Cheeseria Juniors - Java");
+    OpenApiOptions options = new OpenApiOptions(info)
+            .activateAnnotationScanningFor("au.com.patientzero.cheeseria.controllers")
+            .path("/swagger-docs") // endpoint for OpenAPI json
+            .swagger(new SwaggerOptions("/swagger-ui")) // endpoint for swagger-ui
+            // .defaultDocumentation(doc -> {
+            //     doc.json("500", ErrorResponse.class);
+            //     doc.json("503", ErrorResponse.class);
+            // });
+            ;
+    return new OpenApiPlugin(options);
+}
 
   private static Config loadConfig() throws IOException {
     File configFile = WorkingDir.getOrCreateFile("cheeseria.yml", "default_config.yml");
     return new ObjectMapper(new YAMLFactory()).readValue(configFile, Config.class);
+  }
+
+  private static CheesesRepository loadCheesesRepository(DataConfig dataConfig) throws IOException {
+    File cheeseFile = WorkingDir.getOrCreateFile(dataConfig.file(), "initial_cheeses.json");
+    return JsonFileCheesesRepository.loadRepository(cheeseFile);
   }
 
 
@@ -60,26 +82,18 @@ public class App {
 
 
   public static void main(String[] args) {
-    Config config = null;
     try {
-      config = loadConfig();
+      Config config = loadConfig();
+      CheesesRepository repo = loadCheesesRepository(config.data());
+      new App(config.server(), repo).start();
+
     } catch (IOException ioe) {
-      fatal("Cannot load config", ioe);
+      fatal("Unable to start App", ioe);
     }
 
-    assert config != null;
-
-    logger.debug("Port = " + config.server().port());
-//loadConfig()
-    // try {
-    //   CheesesRepository repo = JsonFileCheesesRepository.loadRepository(file);
-    // } catch (Exception e) {
-    //   fatal("Failed to load cheeses", e);
-    // }
-    // new App(loadConfig("cheeseria.yml")).start();
   }  
 }
 
-record Config( ServerConfig server ) {}
-record DataConfig(String path) {}
+record Config( ServerConfig server, DataConfig data ) {}
+record DataConfig(String file) {}
 record ServerConfig (int port) {}
