@@ -17,8 +17,6 @@ import au.com.patientzero.cheeseria.data.CheesesRepository;
 import au.com.patientzero.cheeseria.data.JsonFileCheesesRepository;
 import io.javalin.Javalin;
 import io.javalin.plugin.openapi.OpenApiPlugin;
-import io.javalin.plugin.openapi.dsl.OpenApiBuilder;
-import io.javalin.plugin.openapi.dsl.OpenApiDocumentation;
 import io.javalin.plugin.openapi.OpenApiOptions;
 import io.javalin.plugin.openapi.ui.SwaggerOptions;
 import io.swagger.v3.oas.models.info.Info;
