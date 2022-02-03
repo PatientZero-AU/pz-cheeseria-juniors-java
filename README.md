@@ -41,12 +41,3 @@ Learn how to do that with these documents:
 - [End-to-End Testing](e2e/README.md)
 
 
-### [End-to-End Testing]
-
-You will open the e2e folder, then run following commands to get started
-
-```bash
-npm install
-npm test
-```
-
