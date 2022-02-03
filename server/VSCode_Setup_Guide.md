@@ -48,7 +48,3 @@ Also, if you invoke the command pallette (CONTROL-SHIFT-P on windows, COMMAND-SH
 ![](2022-02-03-17-10-34.png)
 
 
----
-## Eclipse
-
-I haven't run through using the project with Eclipse ...

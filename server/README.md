@@ -1,4 +1,4 @@
-# Client
+# Server
 
 This subproject contains the backend server developed in Java.
 
@@ -6,7 +6,7 @@ It persists the cheese data to a JSON File, stored in a ```.cheeseria``` directo
 
 ## Getting Started
 
-First and foremost, you must use JDK 17 to build this app. So if you don't have one you need one. There's a couple of links where you can get free OpenJDK builds, or most package managers, including winget, chocolatey and homebrew will have them.
+First and foremost, you must use a JDK 17 to build this app. So if you don't have one you need to get one. There's a couple of links where you can get free OpenJDK builds, or most package managers, including winget, chocolatey and homebrew will have them.
 
 If that's the only java on your system, you should be good to go, otherwise open a terminal or other command line and run
 
@@ -26,7 +26,7 @@ This will work on any Unix/Linux/Macos terminal, and even in Windows Terminal wi
 
 Either way, the script will download and install the correct version of gradle, and run the build, and start the server. The command will not terminate, as it is running the server on the terminal window, and you will see the log output onscreen. To stop the server, just use `^C` or the kill technique of your choice.
 
-The server backend listens on [http://localhost:9100](http://localhost:9100), and you can test it using the built in [Swagger UI](http://localhost:9100/swagger-ui).
+The server backend listens on [http://localhost:9100](http://localhost:9100), and you can test it using the built-in [Swagger UI](http://localhost:9100/swagger-ui).
 
 ## Developing
 
@@ -37,12 +37,17 @@ See the following setup guides:
 - [VSCode](./VSCode_Setup_Guide.md)
 - [Eclipse](./Eclipse_Setup_Guide.md) 
 
-The uses features such as records from Java 17, so you can code in a modern java style. To put everyone on an equal footing, it does not use either of the popular super-frameworks (spring-boot or Jakarta-EE). The libraries directly used are:
+The application uses features such as records from Java 17, so you can code in a modern java style. To put everyone on an equal footing, it does not use either of the popular super-frameworks (spring-boot or Jakarta-EE). The libraries directly used are:
 
 - [Javalin](http://javalin.io) - lightweight Java and Kotlin web framework - very quick to learn, what you see is what you get;
 - [Jackson](https://github.com/FasterXML/jackson) - JSON processing (plus YAML and other formats);
 - [SLF4J](https://www.slf4j.org/manual.html) - Simple Logging Facade for Java.
 
+### Configuration and Data files
+
+The application persists its configuration and data in a `.cheeseria` folder under your home directory. The folder and these files are created automatically if they don't exist, and any changes you make to them will not be overwritten by the running application.
+
+This does mean that if you want to use the default values again, or they have been somehow corrupted, then you just need to delete them and restart the app.
 ## Helpful links
 
 [Download Azul Zulu Builds of OpenJDK](https://www.azul.com/downloads/?package=jdk#download-openjdk)
