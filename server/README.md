@@ -18,7 +18,10 @@ Basically, though, whichever java or java.exe command is found first on your pat
 
 ## Build and Run Locally
 
-The project uses Gradle as its build tool, so once we have the right java, building the app is simple. Change to the server directory and run:
+The project uses Gradle as its build tool, so once we have the right java, building the app is simple.
+We use the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html), which will download the correct version of gradle if needed, and then use it.  You do not need to have gradle installed on your machine, although it won't cause problems if you do.
+
+Change to the server directory and run:
 
 ### `./gradlew run`
 
