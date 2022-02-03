@@ -1,15 +1,8 @@
-# Setting Up Your IDE
+# VSCode Setup Guide
 
-All the following descriptions assume:
+This description assumes:
 - There is an installed JDK 17 on your machine, as described in the [Server README](./README.md).
 - The IDE has been installed, and you are basically familiar with how it works.
-
----
-## IntelliJ IDEA
-
-
----
-## VSCode
 
 You can open server folder in VSCode and it will (eventually) be imported as a java project. 
 
