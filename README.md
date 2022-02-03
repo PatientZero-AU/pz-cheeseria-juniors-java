@@ -37,6 +37,8 @@ To run the app, you need to build and run the client and server apps.
 Learn how to do that with these documents:
 
 - [Client](client/README.md)
+- [Server](server/README.md)
+- [End-to-End Testing](e2e/README.md)
 
 
 ### [End-to-End Testing]

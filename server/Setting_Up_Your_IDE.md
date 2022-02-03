@@ -10,4 +10,4 @@
 
 ## Eclipse
 
-I haven't run through using the project with Eclipse
+I haven't run through using the project with Eclipse ...
