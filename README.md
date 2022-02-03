@@ -28,23 +28,18 @@ For this exercise we will be using the Cypress.io tool-set. You will find code t
 
 Once done, please notify us of your repository details and make sure it is publicly accessible. As part of your assessment we will confirm that all features were implemented as instructed.
 
-## Important Scripts
+## Getting Started
+
+After you clone the project, you will see 3 folders, a README.md, and maybe a few other files.  
+
+To run the app, you need to build and run the client and server apps.  
+
+Learn how to do that with these documents:
+
+- [Client](client/README.md)
 
 
-
-In the project directory, you can run:
-
-### `npm install`
-
-Installs package dependencies (node v14.15.0)
-
-### `npm start`
-
-Builds and runs the app in the development mode.\
-The browser will be automatically launched under [http://localhost:9000](http://localhost:9000).
-The server backend will start listening on [http://localhost:3000](http://localhost:3000)
-
-### Cypress.io
+### [End-to-End Testing]
 
 You will open the e2e folder, then run following commands to get started
 
@@ -53,6 +48,3 @@ npm install
 npm test
 ```
 
-### Helpful links
-
-[React Material UI](https://material-ui.com/getting-started/usage/)

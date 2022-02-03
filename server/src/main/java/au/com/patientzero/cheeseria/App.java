@@ -21,77 +21,87 @@ import io.javalin.plugin.openapi.OpenApiOptions;
 import io.javalin.plugin.openapi.ui.SwaggerOptions;
 import io.swagger.v3.oas.models.info.Info;
 
+import static io.javalin.apibuilder.ApiBuilder.get;
+import static io.javalin.apibuilder.ApiBuilder.path;
 
 public class App {
-  private final ServerConfig serverConfig;
-  private final CheesesRepository cheesesRepository;
-  private static Logger logger = LoggerFactory.getLogger(App.class);
+    private final  ServerConfig      serverConfig;
+    private final  CheesesRepository cheesesRepository;
+    private static Logger            logger = LoggerFactory.getLogger(App.class);
 
-
-  public App(ServerConfig serverConfig, CheesesRepository cheesesRepository) {
-    this.serverConfig = serverConfig;
-    this.cheesesRepository = cheesesRepository;
-  }
-
-  public void start () {
-    logger.info("Starting app");
-    CheesesController cheesesController = new CheesesController(cheesesRepository);
-
-    Javalin
-      .create(config-> {
-        config.defaultContentType = "application/json";
-        config.registerPlugin(createOpenApiPlugin());
-      })
-      .get("/cheeses", cheesesController::getAll)
-      .start(serverConfig.port());
-      logger.info("Started app");
-  }
-
-  private static OpenApiPlugin createOpenApiPlugin() {
-    Info info = new Info().version("1.0").title("Cheeses API").description("Cheese API for PZ Cheeseria Juniors - Java");
-    OpenApiOptions options = new OpenApiOptions(info)
-            .activateAnnotationScanningFor("au.com.patientzero.cheeseria.controllers")
-            .path("/swagger-docs") // endpoint for OpenAPI json
-            .swagger(new SwaggerOptions("/swagger-ui")) // endpoint for swagger-ui
-            // .defaultDocumentation(doc -> {
-            //     doc.json("500", ErrorResponse.class);
-            //     doc.json("503", ErrorResponse.class);
-            // });
-            ;
-    return new OpenApiPlugin(options);
-}
-
-  private static Config loadConfig() throws IOException {
-    File configFile = WorkingDir.getOrCreateFile("cheeseria.yml", "default_config.yml");
-    return new ObjectMapper(new YAMLFactory()).readValue(configFile, Config.class);
-  }
-
-  private static CheesesRepository loadCheesesRepository(DataConfig dataConfig) throws IOException {
-    File cheeseFile = WorkingDir.getOrCreateFile(dataConfig.file(), "initial_cheeses.json");
-    return JsonFileCheesesRepository.loadRepository(cheeseFile);
-  }
-
-
-  public static void fatal(String msg, Exception e) {
-    if (msg != null) System.err.println(msg);
-    if (e != null) System.err.print(e);
-    System.exit(1);
-  }
-
-
-  public static void main(String[] args) {
-    try {
-      Config config = loadConfig();
-      CheesesRepository repo = loadCheesesRepository(config.data());
-      new App(config.server(), repo).start();
-
-    } catch (IOException ioe) {
-      fatal("Unable to start App", ioe);
+    public App(ServerConfig serverConfig, CheesesRepository cheesesRepository) {
+        this.serverConfig = serverConfig;
+        this.cheesesRepository = cheesesRepository;
     }
 
-  }  
+    public void start() {
+        logger.info("Starting app");
+        CheesesController cheesesController = new CheesesController(cheesesRepository);
+
+        Javalin.create(config -> {
+            config.defaultContentType = "application/json";
+            config.registerPlugin(createOpenApiPlugin());
+        }).routes(() -> {
+            path(serverConfig.path().toString(), () -> {
+                path("cheeses", () -> {
+                    get(cheesesController::getAll);
+                });
+            });
+        }).start(serverConfig.port());
+
+        logger.info("Started app");
+    }
+
+    private static OpenApiPlugin createOpenApiPlugin() {
+        Info info = new Info().version("1.0").title("Cheeses API")
+                .description("Cheese API for PZ Cheeseria Juniors - Java");
+        OpenApiOptions options = new OpenApiOptions(info).activateAnnotationScanningFor(
+                        "au.com.patientzero.cheeseria.controllers").path("/swagger-docs") // endpoint for OpenAPI json
+                .swagger(new SwaggerOptions("/swagger-ui")) // endpoint for swagger-ui
+                // .defaultDocumentation(doc -> {
+                //     doc.json("500", ErrorResponse.class);
+                //     doc.json("503", ErrorResponse.class);
+                // });
+                ;
+        return new OpenApiPlugin(options);
+    }
+
+    private static Config loadConfig() throws IOException {
+        File configFile = WorkingDir.getOrCreateFile("cheeseria.yml", "default_config.yml");
+        return new ObjectMapper(new YAMLFactory()).readValue(configFile, Config.class);
+    }
+
+    private static CheesesRepository loadCheesesRepository(DataConfig dataConfig) throws IOException {
+        File cheeseFile = WorkingDir.getOrCreateFile(dataConfig.file(), "initial_cheeses.json");
+        return JsonFileCheesesRepository.loadRepository(cheeseFile);
+    }
+
+    public static void fatal(String msg, Exception e) {
+        if (msg != null)
+            System.err.println(msg);
+        if (e != null)
+            System.err.print(e);
+        System.exit(1);
+    }
+
+    public static void main(String[] args) {
+        try {
+            Config config = loadConfig();
+            CheesesRepository repo = loadCheesesRepository(config.data());
+            new App(config.server(), repo).start();
+
+        } catch (IOException ioe) {
+            fatal("Unable to start App", ioe);
+        }
+
+    }
 }
 
-record Config( ServerConfig server, DataConfig data ) {}
-record DataConfig(String file) {}
-record ServerConfig (int port) {}
+record Config(ServerConfig server, DataConfig data) {
+}
+
+record DataConfig(String file) {
+}
+
+record ServerConfig(int port, String path) {
+}

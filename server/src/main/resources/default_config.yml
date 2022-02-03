@@ -1,5 +1,6 @@
 server:
-  port: 8023
+  port: 9100
+  path: api
 data:
   file: cheeses.json
 

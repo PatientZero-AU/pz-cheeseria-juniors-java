@@ -4,38 +4,9 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const webpack = require('webpack');
 const ReactRefreshTypeScript = require('react-refresh-typescript');
 
-const serverConfig = {
-    mode: process.env.NODE_ENV || 'development',
-    entry: './src/server/server.ts',
-    module: {
-        rules: [
-            {
-                test: /\.ts?$/,
-                loader: 'ts-loader',
-                exclude: /node_modules/,
-                options: {
-                    configFile: 'tsconfig.server.json'
-                }
-            }
-        ]
-    },
-    resolve: {
-        extensions: ['.ts', '.js']
-    },
-    output: {
-        filename: 'server.js',
-        path: path.resolve(__dirname, 'dist')
-    },
-    target: 'node',
-    node: {
-        __dirname: false
-    },
-    externals: [nodeExternals()]
-};
-
 const clientConfig = {
     mode: process.env.NODE_ENV || 'development',
-    entry: './src/client/index.tsx',
+    entry: './src/index.tsx',
     devtool: 'inline-source-map',
     module: {
         rules: [
@@ -66,7 +37,7 @@ const clientConfig = {
         compress: true,
         port: 9000,
         proxy: {
-            '/api': 'http://localhost:3000',
+            '/api': 'http://localhost:9100',
         },
         hot: true,
         open: true,
@@ -81,4 +52,4 @@ const clientConfig = {
     }
 };
 
-module.exports = [serverConfig, clientConfig];
+module.exports = [clientConfig];

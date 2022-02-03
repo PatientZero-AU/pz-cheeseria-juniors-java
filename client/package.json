@@ -1,5 +1,5 @@
 {
-  "name": "react-shopping-cart",
+  "name": "cheeseria-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -31,7 +31,6 @@
   "scripts": {
     "build": "webpack",
     "watch:build": "webpack -w",
-    "watch:server": "nodemon dist/server.js --open",
     "watch:client": "npx webpack serve",
     "start": "npm-run-all build --parallel watch:*"
   },
