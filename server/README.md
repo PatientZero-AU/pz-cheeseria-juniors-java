@@ -33,9 +33,9 @@ The server backend listens on [http://localhost:9100](http://localhost:9100), an
 You can easily use your favourite IDE (or text editor to make changes to the project). The most complex part is ensuring that your IDE sees the JDK17 and uses it for your project.
 
 See the following setup guides:
-- [IntelliJ](./IntelliJ_IDEA_Setup_Guide.md)
-- [VSCode](./VSCode_Setup_Guide.md)
-- [Eclipse](./Eclipse_Setup_Guide.md) 
+- [IntelliJ](./docs/IntelliJ_IDEA_Setup_Guide.md)
+- [VSCode](./docs/VSCode_Setup_Guide.md)
+- [Eclipse](./docs/Eclipse_Setup_Guide.md) 
 
 The application uses features such as records from Java 17, so you can code in a modern java style. To put everyone on an equal footing, it does not use either of the popular super-frameworks (spring-boot or Jakarta-EE). The libraries directly used are:
 
