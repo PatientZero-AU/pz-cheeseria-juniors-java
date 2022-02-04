@@ -1,22 +1,13 @@
 # Server
 
-This subproject contains the backend server developed in Java.
+This subproject contains the backend server developed in Java. It uses JDK17, so you can code in a modern style, using new features like records.
 
 It persists the cheese data to a JSON File, stored in a ```.cheeseria``` directory under your user home. 
 
-## Getting Started
 
-First and foremost, you must use a JDK 17 to build this app. So if you don't have one you need to get one. There's a couple of links where you can get free OpenJDK builds, or most package managers, including winget, chocolatey and homebrew will have them.
+## Build and Run in a Terminal
 
-If that's the only java on your system, you should be good to go, otherwise open a terminal or other command line and run
-
-### `java -version`
-
-You should see version 17.  If you do not, then you have some troubleshooting to do.  Java is designed to be installer-free, so you can run multiple different versions on a machine, but it can be painful to determine why your environment is choosing one or the other.
-
-Basically, though, whichever java or java.exe command is found first on your path should be the one that is used. A `JAVA_HOME` environment variable is often used by the startup scripts for some apps, so that's worth checking too.
-
-## Build and Run Locally
+This is easy if you have Java 17, if not see [Getting JDK17](./docs/Getting_JDK17.md).
 
 The project uses Gradle as its build tool, so once we have the right java, building the app is simple.
 We use the [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html), which will download the correct version of gradle if needed, and then use it.  You do not need to have gradle installed on your machine, although it won't cause problems if you do.
@@ -33,9 +24,9 @@ The server backend listens on [http://localhost:9100](http://localhost:9100), an
 
 ## Developing
 
-You can easily use your favourite IDE (or text editor to make changes to the project). The most complex part is ensuring that your IDE sees the JDK17 and uses it for your project.
+You can easily use your favourite IDE (or text editor to make changes to the project). The most complex part is ensuring that your IDE uses the right JDK for your project. IntelliJ is probably the easiest, all point and click, and it will even download and install a JDK for you if you prefer that.  VSCode requires some JSON hacking in the settings, but if you are using VSCode for Java you are probably used to that. 
 
-See the following setup guides:
+Here's some help if you need it:
 - [IntelliJ](./docs/IntelliJ_IDEA_Setup_Guide.md)
 - [VSCode](./docs/VSCode_Setup_Guide.md)
 - [Eclipse](./docs/Eclipse_Setup_Guide.md) 
@@ -50,8 +41,5 @@ The application uses features such as records from Java 17, so you can code in a
 
 The application persists its configuration and data in a `.cheeseria` folder under your home directory. The folder and these files are created automatically if they don't exist, and any changes you make to them will not be overwritten by the running application.
 
-This does mean that if you want to use the default values again, or they have been somehow corrupted, then you just need to delete them and restart the app.
-## Helpful links
+This does mean that if you want to use the default values again, or they have been somehow corrupted, or you have changed the format of the `cheeseria.yml` then you just need to delete the file and restart the app. Same thing to reinitialise the "database", in the `cheeses.json` file
 
-[Download Azul Zulu Builds of OpenJDK](https://www.azul.com/downloads/?package=jdk#download-openjdk)
-[Adoptium - formerly AdoptOpenJDK](https://adoptium.net/)
