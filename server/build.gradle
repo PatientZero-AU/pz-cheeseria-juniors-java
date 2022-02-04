@@ -20,9 +20,14 @@ repositories {
 
 group = "au.com.patientzero.cheeseria"
 version = "1.0.0"
-sourceCompatibility = '17'
-targetCompatibility = '17'
+// sourceCompatibility = '17'
+// targetCompatibility = '17'
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
 dependencies {
   implementation 'io.javalin:javalin:4.3.0'

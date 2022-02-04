@@ -7,3 +7,12 @@
 build
 
 bin
+
+# eclipse
+.settings
+.project
+.classpath
+
+# vim
+*.*~
+*.swp
