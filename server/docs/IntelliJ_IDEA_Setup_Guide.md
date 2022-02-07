@@ -1,15 +1,10 @@
 # IntelliJ IDEA Setup Guide
 
-IntelliJ is pretty simple, and has decent support for downloading and installing a JVM for the project if you haven't got a Java 17 at this stage.
+If your terminal install has run successfully, then opening the project in intellij should be as   **File->Open**, and selecting the build.gradle from the server directory. If prompted, choose to treat it as a Project, not just edit the file.
 
-This description assumes:
-- The IDE has been installed, and you are basically familiar with how it works. If you have problems, make sure it is the 20
+## Setting the JDK manually
 
-# Getting started
-
-Importing the app to Intellij usually just means **File->Open**, and selecting the build.gradle from the server directory. If prompted, choose to treat it as a Project, not just edit the file.
-
-If the JDK17 has not been linked to IntelliJ you will see this problem.
+If the for whatever reason the JDK17 is not found you will see this problem.
 ![](2022-02-04-09-04-12.png)
 
 Click on that and you will see this more detailed view.
