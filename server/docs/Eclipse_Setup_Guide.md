@@ -18,7 +18,7 @@ You should see the Gradle Wrapper selected under **Gradle distribution**.
 
 Next.
 
-You should now see the Gradle version and JDK on hte import preview.
+You should now see the Gradle version and JDK on the import preview.
 ![](2022-02-07-10-28-06.png)
 
 Finish.
